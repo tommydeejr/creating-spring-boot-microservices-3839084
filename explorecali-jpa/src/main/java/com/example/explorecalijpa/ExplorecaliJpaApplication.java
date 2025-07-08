@@ -13,6 +13,8 @@ import com.example.explorecalijpa.business.TourPackageService;
 import com.example.explorecalijpa.business.TourService;
 import com.example.explorecalijpa.model.Difficulty;
 import com.example.explorecalijpa.model.Region;
+import com.example.explorecalijpa.model.Tour;
+import com.example.explorecalijpa.model.TourPackage;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -39,20 +41,42 @@ public class ExplorecaliJpaApplication implements CommandLineRunner {
         System.out.println("Persisted Tours = " + tourService.total());
        
         /********* CHALLENGES **********/
-        System.out.println("\n\nEasy Tours");
-        tourService.lookupByDifficulty(Difficulty.Easy).forEach(System.out::println);
+        // System.out.println("\n\nEasy Tours");
+        // tourService.lookupByDifficulty(Difficulty.Easy).forEach(System.out::println);
 
-        System.out.println("\n\nBackpack Cali Tours");
-        tourService.lookupByPackage("BC").forEach(System.out::println);
+        System.out.println("\n\nBackpack Cali Tours"); 
+        List<Tour> tours = tourService.lookupByPackage("BC");
+        System.out.println("tours size-" + tours.size());
+        for (Tour tour : tours) {
+            System.out.println("tour-" + tour.getTitle());    
+        }
+
+        System.out.println("printToursChallenge");    
+        printToursChallenge() ;
+
+
     }
 
     /**
-     * Iterate through all of the tour packages, print the tour package name and
+     * Iterate through all of the tour packages, 
+     * print the tour package name and
      * for each tour package lookup all tours and print the name and
      * description of the tour.
      * 
      */
     private void printToursChallenge() {
+
+        List<TourPackage> allTourPackages = tourPackageService.lookupAll();
+        System.out.println("allTourPackages size-" + allTourPackages.size());
+        for (TourPackage tourPackage : allTourPackages) {
+            System.out.println("allTourPackages.getCode-" + tourPackage.getCode() + " - " + tourPackage.getName());
+
+            List<Tour> allTours = tourService.lookupByPackage(tourPackage.getCode());
+            for (Tour tour : allTours) {
+                System.out.println("tour.getTitle-" + tour.getTitle() + " - " + tour.getDescription());
+
+            }
+        }
 
     }
 

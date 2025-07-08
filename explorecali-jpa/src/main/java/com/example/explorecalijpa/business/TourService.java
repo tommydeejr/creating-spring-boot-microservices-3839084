@@ -33,13 +33,24 @@ public class TourService {
   }
 
   public List<Tour> lookupByDifficulty(Difficulty difficulty) {
-    return Collections.emptyList();
+    System.out.println("starting method lookupByDifficulty with code=" + difficulty);
+    List<Tour> tours = tourRepository.findByDifficulty(difficulty);
+    return tours;
+    // return Collections.emptyList();
   }
 
   public List<Tour> lookupByPackage(String tourPackageCode) {
-    return Collections.emptyList();
+    System.out.println("starting method lookupByPackage with code=" + tourPackageCode);
+     List<Tour> tours = tourRepository.findByTourPackageCode(tourPackageCode);
+         // .orElseThrow(() -> new RuntimeException("xxxxTour Package not found for id:" + tourPackageCode));
+    return tours;
+    // return Collections.emptyList();
   }
 
+  public List<Tour> lookupAll() {
+    return tourRepository.findAll();
+  }
+  
   public long total() {
     return tourRepository.count();
   }
